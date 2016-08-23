@@ -2,7 +2,34 @@ const path = require('path'),
     protobuf = require('protobufjs');
 
 const builder = protobuf.newBuilder();
-protobuf.loadProtoFile(path.join(__dirname, 'proto', 'POGOProtos.proto'), builder);
+const textFile = `
+syntax = "proto3";
+package POGOProtos;
+
+import public "POGOProtos.Data.proto";
+import public "POGOProtos.Data.Battle.proto";
+import public "POGOProtos.Data.Capture.proto";
+import public "POGOProtos.Data.Gym.proto";
+import public "POGOProtos.Data.Logs.proto";
+import public "POGOProtos.Data.Player.proto";
+import public "POGOProtos.Enums.proto";
+import public "POGOProtos.Inventory.proto";
+import public "POGOProtos.Inventory.Item.proto";
+import public "POGOProtos.Map.proto";
+import public "POGOProtos.Map.Fort.proto";
+import public "POGOProtos.Map.Pokemon.proto";
+import public "POGOProtos.Networking.Envelopes.proto";
+import public "POGOProtos.Networking.Requests.proto";
+import public "POGOProtos.Networking.Requests.Messages.proto";
+import public "POGOProtos.Networking.Responses.proto";
+import public "POGOProtos.Settings.proto";
+import public "POGOProtos.Settings.Master.proto";
+import public "POGOProtos.Settings.Master.Item.proto";
+import public "POGOProtos.Settings.Master.Pokemon.proto";
+`
+const filename = path.join(__dirname, 'proto', 'POGOProtos.proto')
+
+protobuf.loadProto(textFile, builder, filename);
 
 // Recursively add the packed=true option to all packable repeated fields.
 // Repeated fields are packed by default in proto3 but protobuf.js incorrectly does not set the option.
